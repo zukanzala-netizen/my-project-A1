@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Senior Developer Portfolio</title>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#0b0d17;
+      --card:#161927;
+      --accent:#5e5ce6;
+      --text:#ffffff;
+      --muted:#a0a0a0;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
+      background:var(--bg);
+      color:var(--text);
+      padding:40px 20px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:32px;
+    }
+
+    /* Header */
+    .main-header{
+      width:100%;
+      position:fixed;
+      top:0;
+      left:0;
+      background:rgba(11,13,23,0.9);
+      backdrop-filter:blur(10px);
+      z-index:1000;
+    }
+    .navbar{
+      max-width:1100px;
+      width:100%;
+      margin:0 auto;
+      padding:14px 20px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+    }
+    .logo{
+      font-size:24px;
+      font-weight:800;
+      color:var(--accent);
+      text-decoration:none;
+    }
+    .logo span{
+      color:var(--text);
+    }
+    .menu-toggle{
+      display:none;
+      background:none;
+      border:none;
+      color:var(--text);
+      font-size:18px;
+      cursor:pointer;
+    }
+    .nav-list{
+      display:flex;
+      gap:28px;
+      list-style:none;
+      margin:0;
+      padding:0;
+    }
+    .nav-list li{
+      margin:0;
+    }
+    .nav-list a{
+      text-decoration:none;
+      color:var(--text);
+      font-weight:500;
+      transition:color .18s;
+    }
+    .nav-list a:hover{
+      color:var(--accent);
+    }
+
+    /* Hero section (optional) */
+    .hero{
+      max-width:1100px;
+      width:100%;
+      text-align:center;
+      margin-top:80px;
+    }
+    .hero h1{
+      font-size:32px;
+      margin:0 0 12px;
+      line-height:1.2;
+    }
+    .hero-subtitle{
+      font-size:18px;
+      margin:0 0 24px;
+      color:var(--muted);
+    }
+    .cta-btn{
+      background:var(--accent);
+      color:#fff;
+      padding:12px 20px;
+      border-radius:8px;
+      text-decoration:none;
+      font-weight:700;
+      transition:background .18s;
+    }
+    .cta-btn:hover{
+      background:rgba(94,92,230,0.9);
+    }
+
+    /* Social header */
+    .social-header{display:flex;gap:20px;margin-bottom:8px}
+    .social-header a{
+      width:64px;height:64px;display:inline-grid;place-items:center;border-radius:14px;text-decoration:none;
+      transition:transform .18s ease,filter .12s ease;
+      color:var(--text);
+    }
+    .social-header a svg{width:34px;height:34px;display:block;fill:currentColor}
+    .social-header a[aria-label="GitHub"]{background:#000;color:#fff}
+    .social-header a[aria-label="Twitter"]{background:rgba(29,161,242,0.08);color:#1DA1F2}
+    .social-header a[aria-label="Instagram"]{
+      background:conic-gradient(from 120deg,#fdf497 0%,#fd5949 30%,#d6249f 60%,#285AEB 90%);
+      color:#fff;
+    }
+    .social-header a:hover{transform:translateY(-6px);filter:brightness(1.05)}
+
+    /* Grid & cards */
+    .project-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:28px;max-width:1100px;width:100%}
+    .project-card{background:var(--card);padding:26px;border-radius:14px;border:1px solid #222431;transition:border-color .2s;display:flex;flex-direction:column;gap:12px}
+    .project-card:hover{border-color:var(--accent)}
+    .category{font-size:12px;text-transform:uppercase;color:var(--accent);letter-spacing:1px}
+    h2{margin:0;font-size:20px}
+    ul{margin:0;padding-left:18px;color:var(--muted);font-size:14px;line-height:1.6}
+    .tech-stack{font-family:monospace;color:var(--accent);font-weight:700;font-size:13px;margin-top:8px}
+    .button-group {
+      display: flex;
+      gap: 14px;
+      margin-top: 12px;
+      align-items: center;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 16px;
+      border-radius: 12px;
+      font-weight: 700;
+      text-decoration: none;
+      color: var(--text);
+      background: linear-gradient(90deg, #5e5ce6 0%, #9b7cff 100%);
+      box-shadow: 0 10px 22px rgba(94,92,230,0.12);
+      transition: transform .18s ease, box-shadow .18s ease, opacity .18s ease;
+      position: relative;
+      overflow: hidden;
+      -webkit-font-smoothing:antialiased;
+    }
+
+    .btn .icon { width:18px; height:18px; display:inline-block; fill:currentColor; }
+
+    .btn:hover { transform: translateY(-5px); box-shadow: 0 18px 36px rgba(94,92,230,0.16); }
+    .btn:active { transform: translateY(-2px); }
+
+    /* image container (if you use images) */
+    .project-image-container{width:100%;height:180px;overflow:hidden;border-radius:10px;background:#0f172a}
+    .project-image-container img{width:100%;height:100%;object-fit:cover;display:block}
+
+    /* contact */
+    .contact{max-width:900px;width:100%;background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);padding:22px;border-radius:12px;border:1px solid #222431;display:flex;gap:20px;align-items:flex-start}
+    .contact .left{flex:1}
+    .contact .right{width:320px}
+    .info-item{display:flex;align-items:center;gap:10px;color:var(--muted);margin:8px 0}
+    .contact a.contact-link{color:var(--text);text-decoration:none;font-weight:600}
+    .contact a.contact-link:hover{color:var(--accent)}
+
+    footer{width:100%;max-width:1100px;text-align:center;color:var(--muted);font-size:13px;padding:14px 0}
+    @media(max-width:560px){.social-header a{width:52px;height:52px}.social-header a svg{width:26px;height:26px}}
+
+    /* Animations */
+    @keyframes fadeUp { from{opacity:0; transform:translateY(14px)} to{opacity:1; transform:none} }
+    @keyframes fadeDown { from{opacity:0; transform:translateY(-8px)} to{opacity:1; transform:none} }
+    @keyframes popIn  { from{opacity:0; transform:scale(.98)} to{opacity:1; transform:scale(1)} }
+
+    /* hero / header / nav */
+    .hero { opacity:0; animation:fadeUp .7s cubic-bezier(.2,.9,.2,1) .18s forwards; }
+    .main-header .logo { opacity:0; transform:translateY(-6px); animation:fadeDown .6s ease .06s forwards; }
+    .nav-list li { opacity:0; transform:translateY(-6px); animation:fadeDown .45s ease forwards; }
+    .nav-list li:nth-child(1){ animation-delay:120ms; }
+    .nav-list li:nth-child(2){ animation-delay:220ms; }
+    .nav-list li:nth-child(3){ animation-delay:320ms; }
+
+    /* project cards (use .visible added by your existing JS observer) */
+    .project-card { opacity:0; transform:translateY(18px); will-change:transform,opacity; }
+    .project-card.visible { animation:fadeUp .6s cubic-bezier(.2,.9,.2,1) forwards; }
+    .project-grid .project-card:nth-child(1).visible { animation-delay:120ms; }
+    .project-grid .project-card:nth-child(2).visible { animation-delay:240ms; }
+    .project-grid .project-card:nth-child(3).visible { animation-delay:360ms; }
+
+    /* subtle pop for images/buttons */
+    .project-image-container img.loaded { animation:popIn .45s ease forwards; }
+
+    /* link underline grow */
+    .btn-link { position:relative; overflow:visible; }
+    .btn-link::after {
+      content:"";
+      position:absolute;
+      left:0;
+      bottom:-6px;
+      height:4px;
+      width:0;
+      background:linear-gradient(90deg,var(--accent),#9b7cff);
+      border-radius:3px;
+      transition:width .28s cubic-bezier(.2,.9,.2,1);
+    }
+    .btn-link:hover::after { width:100%; }
+
+    /* footer social stagger */
+    .footer-social a { opacity:0; transform:translateY(10px); transition:transform .28s ease, opacity .28s ease; }
+    .footer-social a.show { opacity:1; transform:none; }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="main-header">
+    <nav class="navbar">
+      <a href="#" class="logo">PORT<span>FOLIO</span>.</a>
+
+      <!-- hamburger toggle button -->
+      <button class="menu-toggle" id="mobile-menu" aria-label="Toggle menu">
+        <i class="fas fa-bars"></i>
+      </button>
+
+      <!-- menu items -->
+      <ul class="nav-list" id="nav-list">
+        <li><a href="#">Home</a></li>
+        <li><a href="#projects">Work</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- optional hero (restore if you had it before) -->
+  <section class="hero">
+    <h1>Crafting Digital Experiences</h1>
+    <p class="hero-subtitle">creating interactive web experiences with modern design and animations</p>
+    <a href="#projects" class="cta-btn">View My Work</a>
+  </section>
+
+  <!-- Projects -->
+  <div class="project-grid">
+    <div class="project-card">
+      <span class="category">SaaS & Analytics</span>
+      <h2>SaaS Analytics Dashboard</h2>
+      <div class="project-image-container">
+        <img src="images/project1.jpg" alt="Project 1" class="project-img">
+      </div>
+      <ul>
+        <li>Auth (Fake JWT Flow)</li>
+        <li>Role-based dashboards (Admin/User)</li>
+        <li>Revenue & Churn Charts</li>
+      </ul>
+      <p class="tech-stack">React • Node.js • Chart.js</p>
+      <div class="button-group">
+        <a href="https://your-live-site.example/project1" class="btn-link" target="_blank" rel="noopener noreferrer">live demo</a>
+        <a href="https://github.com/KAMRAN/project1" class="btn-link" target="_blank" rel="noopener noreferrer">source code</a>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <span class="category">AI & Automation</span>
+      <h2>AI Resume Screener</h2>
+      <div class="project-image-container">
+        <img src="images/project2.jpg" alt="Project 2" class="project-img">
+      </div>
+      <ul>
+        <li>Resume Text Parsing</li>
+        <li>Python-based scoring logic</li>
+        <li>Bulk upload & comparison</li>
+      </ul>
+      <p class="tech-stack">Python • Node • React</p>
+      <div class="button-group">
+        <a href="#" class="btn-link">live demo</a>
+        <a href="#" class="btn-link">source code</a>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <span class="category">Real-time Systems</span>
+      <h2>Order Tracking System</h2>
+      <div class="project-image-container">
+        <img src="images/project3.jpg" alt="Project 3" class="project-img">
+      </div>
+      <ul>
+        <li>WebSockets (Socket.io)</li>
+        <li>Order Lifecycle states</li>
+        <li>Event-driven updates</li>
+      </ul>
+      <p class="tech-stack">Socket.io • Express • Redis</p>
+      <div class="button-group">
+        <a href="#" class="btn-link">live demo</a>
+        <a href="#" class="btn-link">source code</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contact -->
+  <div class="contact" id="contact">
+    <div class="left">
+      <h3>Let's work together</h3>
+      <p>Ready to start your next project? Drop a message or use the contact links.</p>
+
+      <div class="info-item">
+        <!-- envelope svg -->
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M2 4h20v16H2z" fill="none"/><path d="M20 4H4c-1.1 0-2 .9-2 2v.2l10 6.3 10-6.3V6c0-1.1-.9-2-2-2zM4 18h16v-8.6l-8 5.02-8-5.02V18z"/></svg>
+
+        <!-- Opens Gmail compose in a new tab (fallback: user can enable mailto) -->
+        <a class="contact-link"
+           href="https://mail.google.com/mail/?view=cm&fs=1&to=tjkamran4@gmail.com"
+           target="_blank"
+           rel="noopener noreferrer"
+           onclick="window.open(this.href); return false;">
+          tjkamran4@gmail.com
+        </a>
+      </div>
+
+      <div class="info-item">
+        <!-- phone svg -->
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.11-.21c1.2.5 2.5.77 3.85.77a1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h2.5a1 1 0 011 1c0 1.35.27 2.65.77 3.85.16.31.07.68-.21 1.11l-2.2 2.2z"/></svg>
+        <a class="contact-link" href="tel:+44794250717">+44 7942 50717</a>
+      </div>
+    </div>
+
+    <div class="right">
+      <form id="contact-form">
+        <label style="display:block;margin-bottom:8px;color:var(--muted)">Your name</label>
+        <input type="text" name="name" placeholder="John Doe" style="width:100%;padding:10px;border-radius:8px;border:1px solid #222431;background:transparent;color:var(--text);margin-bottom:10px" required>
+        <label style="display:block;margin-bottom:8px;color:var(--muted)">Email</label>
+        <input type="email" name="email" placeholder="john@example.com" style="width:100%;padding:10px;border-radius:8px;border:1px solid #222431;background:transparent;color:var(--text);margin-bottom:10px" required>
+        <label style="display:block;margin-bottom:8px;color:var(--muted)">Message</label>
+        <textarea name="message" rows="4" placeholder="Tell me about your project..." style="width:100%;padding:10px;border-radius:8px;border:1px solid #222431;background:transparent;color:var(--text);margin-bottom:10px" required></textarea>
+        <button type="submit" style="background:var(--accent);color:#fff;padding:10px 14px;border-radius:10px;border:none;font-weight:700;cursor:pointer">Send Message</button>
+      </form>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-social" style="display:flex;gap:14px;justify-content:center;margin-bottom:12px">
+      <a href="https://github.com/zukanzala-netizen/TJ_KAMRAN" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+        <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor" aria-hidden="true"><path d="M12 .297a12 12 0 00-3.797 23.412c.6.111.82-.26.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.757-1.333-1.757-1.09-.746.083-.731.083-.731 1.205.085 1.84 1.236 1.84 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.775.418-1.305.76-1.605-2.665-.303-5.467-1.332-5.467-5.93 0-1.31.47-2.381 1.235-3.221-.123-.303-.535-1.523.117-3.176 0 0 1.008-.322 3.3 1.23a11.5 11.5 0 013.003-.404c1.02.005 2.045.137 3.003.404 2.29-1.552 3.296-1.23 3.296-1.23.653 1.653.242 2.873.12 3.176.77.84 1.234 1.911 1.234 3.221 0 4.61-2.807 5.625-5.48 5.92.43.372.823 1.103.823 2.222 0 1.605-.015 2.896-.015 3.293 0 .319.216.694.825.576A12.005 12.005 0 0012 .297"/></svg>
+      </a>
+
+      <a href="https://www.facebook.com/share/17qknCuYjY/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+        <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor" aria-hidden="true">
+          <path d="M22 12a10 10 0 10-11.5 9.9v-7h-2.2v-2.9h2.2V9.3c0-2.2 1.3-3.4 3.3-3.4.96 0 1.97.17 1.97.17v2.2h-1.12c-1.1 0-1.45.69-1.45 1.4v1.68h2.47l-.39 2.9h-2.08v7A10 10 0 0022 12z"/>
+        </svg>
+      </a>
+
+      <a href="https://instagram.com/kaelith_oryn" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+        <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor" aria-hidden="true"><path d="M7 2h10a5 5 0 015 5v10a5 5 0 01-5 5H7a5 5 0 01-5-5V7a5 5 0 015-5zm5 3.5A4.5 4.5 0 1016.5 13 4.5 4.5 0 0012 5.5zM18.5 6.1a1.2 1.2 0 11-1.2 1.2 1.2 1.2 0 011.2-1.2z"/></svg>
+      </a>
+    </div>
+
+    <div style="text-align:center;color:#a0a0a0;font-size:13px">&copy; 2026 portfolio. All rights reserved to Kamran</div>
+  </footer>
+
+  <script src="app.js"></script>
+  <!-- ADD: small script to stagger footer icons on load (placed before </body>) -->
+  <script>
+document.addEventListener('DOMContentLoaded', () => {
+  const icons = document.querySelectorAll('.footer-social a');
+  icons.forEach((el, i) => setTimeout(() => el.classList.add('show'), 120 * i + 80));
+});
+</script>
+</body>
+</html>

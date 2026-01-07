@@ -121,4 +121,20 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
     });
+
+    // --- MOBILE CONTACT HELPERS ---
+    // Ensure contact form is easy to use on small phones: add a helper class and autofocus name field
+    function adaptContactForMobile() {
+        if (window.innerWidth <= 600) {
+            const contact = document.querySelector('.contact') || document.querySelector('.contact-container') || document.querySelector('.contact-section');
+            if (contact) contact.classList.add('mobile-contact');
+            const firstInput = document.querySelector('#contact-form input[name="name"]') || document.querySelector('#contact-form input');
+            if (firstInput) firstInput.setAttribute('autofocus', '');
+        }
+    }
+
+    adaptContactForMobile();
+    window.addEventListener('resize', () => {
+        adaptContactForMobile();
+    });
 });
